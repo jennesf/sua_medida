@@ -14,29 +14,21 @@
     <link rel="icon" href="img/logo.jpeg" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <title>Editar produto</title>
+    <title>Editar Produto</title>
 
 </head>
 
 <body>
     <main>
-        
         <section class="container-admin-banner">
-         
-            <h1>produto editado com sucesso</h1>
-        
+            <h1>Produto Editado com Sucesso</h1>
         </section>
         <section class="container-form">
             <form action="admin.php" method="post">
-                <input type="submit" name="voltar" class="botao-editar" value="voltar" />
+                <input type="submit" name="voltar" class="botao-editar" value="Voltar" />
             </form>
-
         </section>
     </main>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js" integrity="sha512-Rdk63VC+1UYzGSgd3u2iadi0joUrcwX0IWp2rTh6KXFoAmgOjRS99Vynz1lJPT8dLjvo6JZOqpAHJyfCEZ5KoA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="js/index.js"></script>
 </body>
 
 </html>

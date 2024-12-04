@@ -1,17 +1,11 @@
 <?php
 session_start();
-require_once 'Menu.php';
-
-if ($_SERVER['REQUEST_METHOD'] = 'POST') {
-    $nome = $_SESSION['nome'];
-    // Configura as variáveis de sessão, se necessário
-    $_SESSION['nome'] = $nome;
-} else {
-    header("Location: login.php");
-    exit;
-}
+require_once('../controladora/conexao.php');
+require_once ('../controladora/ProdutoRepositorio.php');
+require_once ('../Modelo/Produto.php');
 
 ?>
+
 
 <!doctype html>
 <html lang="pt-br">
@@ -24,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] = 'POST') {
     <link rel="stylesheet" href="../css/estilo.css">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="../css/form.css">
+    <link rel="stylesheet" href="../css/cadastrar-produto.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" href="../img/logo.jpeg" type="image/x-icon">
@@ -32,33 +27,36 @@ if ($_SERVER['REQUEST_METHOD'] = 'POST') {
     <title>Cadastrar Produto</title>
 </head>
 
-<body class= "cadastrar">
+<body class="cadastrar">
     <main>
         <section class="container-admin-banner">
-       
+
             <h1>Cadastro de Produtos</h1>
 
         </section>
         <section class="container-form">
             <form action="../controladora/processar-produtos.php" method="POST" enctype="multipart/form-data">
 
-            <label for="tipo">Tipo</label>
-            <input type="text" id="tipo" name="tipo" placeholder="Digite o tipo do produto" required>
 
-                <label for="nome">Nome</label>
+                <label for="nome" style="color:black;">Nome do Produto</label>
                 <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" required>
+                <br>
+                <label for="tipo" style="color:black;">Tipo</label>
+                <input type="text" id="tipo" name="tipo" placeholder="Digite o tipo do produto" required>
+                 <br>
+                <label for="preco" style="color:black;">Preço</label>
+                <input type="text" id="preco" name="preco" placeholder="Digite um preço" required>
+                <br>
+                <input type="file" name="imagem" id="imagem">
+                <br>
+                <input type="submit" name="cadastro" class="botao-cadastrar-produto" value="Cadastrar produto" style="width:100%;" />
+                <br>
             
                 
-                <label for="imagem">Envie uma imagem do produto</label>
-                <input type="file" name="imagem" accept="img/" id="imagem" placeholder="Envie uma imagem">
-                <input type='hidden' name='nome' value='<?= $_SESSION['nome']; ?>'>
-                <input type='hidden' name='usuarios' value='<?= $_SESSION['usuarios']; ?>'>
-              
-            
-                <label for="preco">Preço</label>
-                <input type="text" id="preco" name="preco" placeholder="Digite um preço" required>
+    
 
-                <input type="submit" name="cadastro" class="botao-cadastrar" value="Cadastrar produto" />
+
+               
             </form>
 
         </section>
@@ -67,6 +65,18 @@ if ($_SERVER['REQUEST_METHOD'] = 'POST') {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js" integrity="sha512-Rdk63VC+1UYzGSgd3u2iadi0joUrcwX0IWp2rTh6KXFoAmgOjRS99Vynz1lJPT8dLjvo6JZOqpAHJyfCEZ5KoA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="js/index.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#preco').maskMoney({
+                prefix: 'R$ ',
+                allowNegative: false,
+                thousands: '.',
+                decimal: ',',
+                affixesStay: false
+            });
+        });
+    </script>
 </body>
 
 </html>

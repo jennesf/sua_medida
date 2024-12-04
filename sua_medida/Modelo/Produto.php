@@ -6,6 +6,7 @@ class Produto {
     private $descricao;
     private $preco;
     private $imagem;
+    
 
     public function __construct($id, $tipo, $nome, $descricao, $preco, $imagem = null) {
         $this->id = $id;
@@ -30,6 +31,10 @@ class Produto {
 
     public function getDescricao() {
         return $this->descricao;
+    }
+
+    public function setPreco($preco) {
+        $this->preco = $preco;
     }
 
     public function getPreco() {

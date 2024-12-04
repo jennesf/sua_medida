@@ -1,5 +1,5 @@
 <?php
-session_start(); // Inicie a sessão
+session_start();
 include '../controladora/conexao.php'; // Conexão com o banco de dados
 include '../Modelo/Produto.php'; // Inclusão do modelo Produto
 include '../controladora/ProdutoRepositorio.php'; // Inclusão do repositório

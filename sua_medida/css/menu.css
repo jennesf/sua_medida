@@ -17,6 +17,7 @@ body {
     display: flex;
     align-items: center;
     position: relative; /* Necessário para que o dropdown seja posicionado em relação a este elemento */
+    padding-left: 20px;
 }
 
 .user-photo {

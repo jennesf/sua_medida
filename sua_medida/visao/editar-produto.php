@@ -1,18 +1,28 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['usuarios']) || !isset($_SESSION['nome'])) {
-    header("Location: login.php");
-    exit;
+require_once 'Menu.php';
+require_once '../controladora/conexao.php';
+require_once '../Modelo/Produto.php';
+require_once '../controladora/ProdutoRepositorio.php';
+
+// Verificar se o parâmetro 'id' foi passado na URL
+if (!isset($_GET['id']) || empty($_GET['id']) || !is_numeric($_GET['id'])) {
+  echo "Erro: ID do produto não encontrado.";
+  exit;
 }
 
-include 'Menu.php';
-include '../controladora/conexao.php';
-include '../Modelo/Produto.php';
-include '../controladora/ProdutoRepositorio.php';
+$idProduto = (int) $_GET['id'];  // Garantir que o ID seja um número inteiro
+//echo "ID do produto (parâmetro da URL): " . $idProduto . "<br>";  // Verifique o ID que está sendo passado
 
+// Verificar se o produto existe na base de dados
 $produtosRepositorio = new ProdutoRepositorio($conn);
-$produto = $produtosRepositorio->obterProdutoPorId($_GET['id']);
+$produto = $produtosRepositorio->obterProdutoPorId($idProduto);
+
+if ($produto === null) {
+  echo "Produto não encontrado para o ID: " . $idProduto;
+  exit;
+}
 ?>
 <!doctype html>
 <html lang="pt-br">
@@ -35,23 +45,18 @@ $produto = $produtosRepositorio->obterProdutoPorId($_GET['id']);
     <section class="container-form">
       <form method="POST" action="../controladora/processar-editar-produto.php" enctype="multipart/form-data">
         <label for="nome">Nome</label>
-        <input type="text" id="nome" name="nomeP" value="<?= $produto->getNome(); ?>" required>
+        <input type="text" id="nome" name="nomeP" value="<?= htmlspecialchars($produto->getNome()); ?>" required>
 
         <label for="tipo">Tipo</label>
-        <input type="text" id="tipo" name="tipo" value="<?= $produto->getTipo(); ?>" required>
-
-        <label for="descricao">Descrição</label>
-        <textarea id="descricao" name="descricao" required><?= $produto->getDescricao(); ?></textarea>
+        <input type="text" id="tipo" name="tipo" value="<?= htmlspecialchars($produto->getTipo()); ?>" required>
 
         <label for="preco">Preço</label>
-        <input type="text" id="preco" name="preco" value="<?= $produto->getPreco(); ?>" required>
+        <input type="text" id="preco" name="preco" value="<?= htmlspecialchars($produto->getPreco()); ?>" required>
 
-        <label for="imagem">Imagem Atual</label>
-        <div class="container-foto">
-          <img src="<?= $produto->getImagem(); ?>" alt="Imagem do Produto" width="200">
+
         </div>
         <input type="file" name="imagem" accept="image/*">
-        <input type="hidden" name="id" value="<?= $produto->getId(); ?>">
+        <input type="hidden" name="id" value="<?= htmlspecialchars($produto->getId()); ?>">
 
         <input type="submit" name="editar" value="Salvar Alterações">
       </form>
@@ -60,4 +65,3 @@ $produto = $produtosRepositorio->obterProdutoPorId($_GET['id']);
 </body>
 
 </html>
-

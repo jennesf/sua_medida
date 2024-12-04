@@ -43,15 +43,15 @@ $email = isset($_SESSION['email']) ? $_SESSION['email'] : '';
                 <!-- Verifica se o e-mail corresponde ao do admin -->
                 <?php if ($email === 'abc@ifsp.edu.br'): ?>
                     <a class="dropdown-item" href="#" onclick="enviarParaAdmin();">Admin</a>
-                    <a class="dropdown-item" href="#" onclick="enviarParaPerfil();">Menu</a>
                 <?php endif; ?>
 
-                <a class="dropdown-item" href="#" onclick="logout();">Sair</a>
+                <a class="dropdown-item" href="#" onclick="logout();">Deslogar</a>
+             
             </div>
         </div>
         <ul style="float: left;">
              <li class="nav-item">
-                <a class="nav-link" href="finalizar_compra.php">
+                <a class="nav-linkcar" href="finalizar_compra.php">
                     <i class="fas fa-cart-shopping" style="font-size: 1.5rem;"></i>
                 </a>
             </li>
@@ -67,6 +67,7 @@ $email = isset($_SESSION['email']) ? $_SESSION['email'] : '';
         }
         function enviarParaPerfil() {
             document.getElementById('perfilForm').submit();
+            
         }
     </script>
 </body>

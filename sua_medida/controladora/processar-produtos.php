@@ -1,54 +1,81 @@
 <?php
 session_start();
-include_once '../controladora/conexao.php';
-include_once '../Modelo/Produto.php';
-include_once '../controladora/ProdutoRepositorio.php';
+require_once('../controladora/conexao.php');
+require_once('../controladora/ProdutoRepositorio.php');
+require_once('../Modelo/Produto.php');
 
 // Verifica se os dados do produto foram recebidos via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Cria as variáveis a partir do POST
-    $nome = $_POST['nome'] ?? '';
+    $nome = $_POST['nome'] ?? '';  // Certifique-se de que 'nome' corresponde ao atributo name do input
     $tipo = $_POST['tipo'] ?? '';
-    $imagem = $_POST['imagem'] ?? '';
-    $preco = $_POST['preco'] ?? '';
-    $descricao = $_POST['descricao'] ?? ''; // Adicionando a descrição
     
+    // Convertendo o preço para float e tratando formatação
+    $preco = floatval(
+        str_replace(
+            ',',
+            '.',
+            str_replace('.', '', $_POST['preco'])  // Converte o preço para formato numérico adequado
+        )
+    );
     
-    // Verifica se a imagem foi enviada e faz o upload
-    if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === 0) {
-        $imagemTemp = $_FILES['imagem']['tmp_name'];
-        $imagemNome = $_FILES['imagem']['name'];
-        $imagemDiretorio = 'uploads/' . basename($imagemNome); // Define o diretório onde a imagem será salva
-        
-        // Move a imagem para o diretório
-        if (move_uploaded_file($imagemTemp, $imagemDiretorio)) {
-            // Cria um objeto Produto com a imagem
-            $produto = new Produto(null, $nome, $tipo, $preco, $imagemDiretorio, $descricao);
+    $descricao = $_POST['descricao'] ?? '';
+    $imagem = $_FILES['imagem'] ?? null;
+
+    // Validação dos campos obrigatórios
+    if (empty($nome) || empty($tipo) || empty($preco)) {
+        $_SESSION['mensagem'] = 'Preencha todos os campos obrigatórios!';
+        header('Location: ../visao/admin.php');
+        exit;
+    }
+
+    $goTo = "../imagens/produtos/";
+
+    // Corrigido para usar $goTo ao invés de $uploadDir
+    if (!is_dir($goTo)) {
+        mkdir($goTo, 0777, true); // Certifique-se de usar $goTo aqui
+    }
+
+    // Verificando se houve erro no envio da imagem
+    if ($imagem && $imagem["error"] === UPLOAD_ERR_OK) {
+        $novoNome = uniqid() . "_" . basename($imagem["name"]);
+        $novoCaminho = $goTo . $novoNome;
+
+        // Tentando mover a imagem para o diretório de uploads
+        if (move_uploaded_file($imagem["tmp_name"], $novoCaminho)) {
+            // Criando o produto com a imagem
+            $produto = new Produto(null, $tipo, $nome, $descricao, $preco, $novoCaminho);
+            $produto->setImagem($novoCaminho);
         } else {
-            $_SESSION['mensagem'] = 'Erro ao enviar a imagem!';
+            // Caso não consiga mover a imagem
+            $_SESSION['mensagem'] = 'Erro ao mover o arquivo de imagem!';
             header('Location: ../visao/admin.php');
             exit;
         }
     } else {
-        // Caso a imagem não seja enviada, cria o produto sem a imagem
-        $produto = new Produto(null, $nome, $tipo, $preco, null, $descricao);
+        // Caso não haja imagem (imagem pode ser opcional)
+        $produto = new Produto(null, $tipo, $nome, $descricao, $preco, null);
     }
-    
-    // Instancia o repositório de produtos
+
+    // Instanciando o repositório de produtos
     $produtoRepositorio = new ProdutoRepositorio($conn);
+
+    // Tenta cadastrar o produto no banco
     $resultado = $produtoRepositorio->cadastrar($produto);
-    
-    // Verifica se o produto foi cadastrado com sucesso
+
+    // Mensagem de feedback
     if ($resultado) {
         $_SESSION['mensagem'] = 'Produto cadastrado com sucesso!';
     } else {
-        $_SESSION['mensagem'] = 'Erro ao cadastrar o produto!';
+        $_SESSION['mensagem'] = 'Erro ao cadastrar o produto! ' . $conn->error;
     }
-    
+
     // Redireciona de volta para a página de administração
     header('Location: ../visao/admin.php');
     exit;
+} else {
+    // Caso o método não seja POST, redireciona para a página de administração
+    $_SESSION['mensagem'] = 'Requisição inválida!';
+    header('Location: ../visao/admin.php');
+    exit;
 }
-?>
-
-

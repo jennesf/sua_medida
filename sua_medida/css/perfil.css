@@ -9,7 +9,7 @@ body{
 }
 
 .container-fluid a:visited {
-    color: black;
+    color: white;
     }
 
 .logo-admin{
@@ -21,11 +21,11 @@ body{
     text-align:left;
 }
 
-.btn-adicionar-carrinho{
-    font-family: "Raleway", sans-serif;
-    text-transform: lowercase;
-    font-weight: 400;
-    font-size: 12px;
+.btn-adicionar-carrinho {
+    font-family: "Raleway", "sans-serif";
+    text-transform: uppercase;
+    font-weight: 400px;
+    font-size: 20px;
     letter-spacing: 1px;
     display: inline-block;
     padding: 5px 70px;
@@ -35,9 +35,9 @@ body{
     color: #fff;
     margin-bottom: 5px;
     background: #656263;
-   
 
 }
+
 .btn-adicionar-carrinho:hover{
     background: #2C2C2C;
 
@@ -45,7 +45,6 @@ body{
 
 .btn-finalizar{
     font-family: "Raleway", sans-serif;
-    text-transform: lowercase;
     font-weight: 400;
     font-size: 12px;
     letter-spacing: 1px;
@@ -56,18 +55,13 @@ body{
     border: none;
     transition: 0.5s;
     margin-bottom: 5px;
-    background: #656263;
+    background: black;
     width: 20%;
 }
 .btn-finalizar:hover{
     background-color: #100E0D;
     color: #fff;
     
-}
-
-
-
-
-
+} 
 
 

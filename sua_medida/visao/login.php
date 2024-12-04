@@ -10,19 +10,27 @@ session_start();
     <link rel="stylesheet" href="../css/estilo.css">
 </head>
 <body>
+
     <header>
-        <!-- Cabeçalho do site -->
     <div id="area_cabecalho"><!--cabecalho -->
         <div id="area_logo"><!-- logo-->
-            <h1 id="cor_logo">Sua<span style="color:#8C8C8C;">Medida</span></h1>
+            <h1 id="cor_logo"><span style="color: black;">Sua</span><span style="color: #8C8C8C;">Medida</span></h1>
         </div>
-        <nav>
-            <a href="index.php">Menu</a>
-        </nav>
-    </header>
+        <!-- Cabeçalho do site -->
+<nav>
+            <!-- Seção de navegação -->
+        <div class="container-fluid">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php">Home</a>
+      
+              </li>
+            </ul>
+</header>
 
     <div id="section3" class="container-fluid bg-secondary text-white" style="padding:100px 20px;">
-     <h1>Login</h1>
+        <div class="form-cadastrar">
+     <h2 class= "class" >Login </h2>
         <form action="../controladora/processa_login.php" method="POST">
             <div class="mb-3">
                 <label for="email">Email:</label>
@@ -32,11 +40,12 @@ session_start();
                 <label for="pswd">Senha:</label>
                 <input type="password" class="form-control" id="pswd" name="pswd" placeholder="Digite sua senha" required>
             </div>
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="submit" class="btn-cadastrar">Login</button>
       
 
 
         </form>
+    </div>
     </div>
     <footer>
     <div class="footer-container">

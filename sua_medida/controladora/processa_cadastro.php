@@ -1,10 +1,12 @@
 <?php
+session_start();
 // Incluir arquivo de conexão
 include("conexao.php");
-session_start();
+
 
 // Função para validar a senha
-function validarSenha($senha) {
+function validarSenha($senha)
+{
     // Definindo as variáveis para contar os tipos de caracteres
     $upperChars = 0;
     $lowerChars = 0;
@@ -15,7 +17,7 @@ function validarSenha($senha) {
     // Verifica se a senha tem pelo menos 6 caracteres
     if ($length < 6) {
         echo "A senha é muito curta. Sua senha deve possuir mais de seis dígitos.";
-        header("Refresh: 2; url=../visao/index.php"); 
+        header("Refresh: 4; url=../visao/index.php");
         exit();
     }
 
@@ -35,29 +37,28 @@ function validarSenha($senha) {
     // Verifica se todos os critérios estão atendidos
     if ($upperChars == 0) {
         echo "Senha Fraca! Sua senha deve conter Letra Maiúscula.";
-        header("Refresh: 2; url=../visao/index.php"); 
+        header("Refresh: 4; url=../visao/index.php");
         exit();
     }
     if ($lowerChars == 0) {
         echo "Senha Fraca! Sua senha deve conter Letra Minúscula.";
-        header("Refresh: 2; url=../visao/index.php"); 
+        header("Refresh: 4; url=../visao/index.php");
         exit();
     }
     if ($digits == 0) {
         echo "Senha Fraca! Sua senha deve conter Número.";
-        header("Refresh: 2; url=../visao/index.php"); 
+        header("Refresh: 4; url=../visao/index.php");
         exit();
     }
     if ($specialChars == 0) {
         echo "Senha Fraca! Sua senha deve conter Caracter Especial.";
-        header("Refresh: 2; url=../visao/index.php"); 
+        header("Refresh: 4; url=../visao/index.php");
         exit();
     }
 
     // Verifica a força da senha
     if ($length >= 10) {
         return "A força de sua senha é Forte.";
-
     } else {
         return "A força de sua senha é Média.";
     }
@@ -107,11 +108,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         echo "Por favor, preencha todos os campos.";
-        header("Refresh: 2; url=../visao/index.php"); 
+        header("Refresh: 4; url=../visao/index.php");
     }
 }
 
 // Fecha a conexão com o banco
 $conn->close();
-?>
-

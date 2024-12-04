@@ -1,19 +1,38 @@
 <?php
 session_start();
 
-// Receber os dados do item
-$item = $_POST['item'];
-$preco = $_POST['preco'];
-
-// Verificar se o carrinho já existe na sessão
+// Verifica se o carrinho já existe na sessão, caso contrário inicializa
 if (!isset($_SESSION['carrinho'])) {
     $_SESSION['carrinho'] = [];
 }
 
-// Adicionar item ao carrinho
-$_SESSION['carrinho'][] = ['item' => $item, 'preco' => $preco];
+// Verifica se o ID do produto foi enviado pelo formulário
+if (isset($_POST['id'])) {
+    $id = (int)$_POST['id'];
 
-// Redirecionar de volta para o carrinho
-header('Location: perfil.php');
-exit();
+    // Incrementa a quantidade do produto no carrinho ou adiciona
+    if (isset($_SESSION['carrinho'][$id])) {
+    } else {
+        require_once "../controladora/conexao.php";
+        require_once "../Modelo/Produto.php";
+        require_once "../controladora/ProdutoRepositorio.php";
+
+        // Busca o produto pelo ID
+        $produtoRepositorio = new ProdutoRepositorio($conn);
+        $produto = $produtoRepositorio->obterProdutoPorId($id);
+
+        if ($produto) {
+            $_SESSION['carrinho'][$id] = [
+                'id' => $produto->getId(),
+                'nome' => $produto->getNome(),
+                'preco' => $produto->getPreco(),
+                'imagem' => $produto->getImagem(),
+            ];
+        }
+    }
+}
+
+// Redireciona para a página inicial ou para onde desejar
+header("Location: perfil.php");
+exit;
 ?>
